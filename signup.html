@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - UTAR Connect</title>
+    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <a href="/index.html" class="logo">
+                <h1>UT<span class="title-red">A</span>R <span class="title-yellow">Connect</span></h1>
+            </a>
+            <div>
+                 <button id="logoutButton" class="logout-button" style="display: none;">Logout</button>
+             </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <form id="signupForm" class="auth-form" novalidate> 
+            <h2>Create UTAR Account</h2>
+
+            <div id="authError" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
+
+            <label for="name">Enter Your Full Name:</label>
+             <div class="input-container">
+                <input type="text" id="name" required
+                        placeholder="Full Name">
+                 <span class="feedback-icon"></span>
+             </div>
+
+            <label for="signupEmail">UTAR Email:</label>
+            <div class="input-container">
+                <input type="email" id="signupEmail" required
+                       placeholder="e.g., name@1utar.my or name@utar.edu.my"
+                       pattern=".+@(1utar\.my|utar\.edu\.my)$"
+                       title="Must be a valid UTAR email address (@1utar.my or @utar.edu.my)">
+                 <span class="feedback-icon"></span>
+            </div>
+
+
+            <div id="studentIdContainer" style="display: none;">
+                <label for="studentId">Full Student ID (7 digits):</label>
+                <div class="input-container">
+                    <input type="text" id="studentId" 
+                           pattern="\d{7}"
+                           maxlength="7"
+                           placeholder="e.g., 1234567"
+                           title="Enter 7 digits for your student ID">
+                     <span class="feedback-icon"></span>
+                </div>
+            </div>
+
+            <label>Gender:</label>
+            <div class="gender-selection">
+                <input type="radio" id="genderMale" name="gender" value="Male" required>
+                <label for="genderMale">Male</label>
+                <input type="radio" id="genderFemale" name="gender" value="Female">
+                <label for="genderFemale">Female</label>
+            </div>
+
+            <label for="signupPassword">Password:</label>
+            <div class="password-container">
+                <input type="password" id="signupPassword" required
+                       minlength="6"
+                       placeholder="At least 6 characters">
+                 <span class="toggle-password">👁️</span>
+            </div>
+
+            <label for="signupConfirmPassword">Confirm Password:</label>
+            <div class="password-container">
+                <input type="password" id="signupConfirmPassword" required
+                       minlength="6"
+                       placeholder="Re-enter your password">
+                 <span class="toggle-password">👁️</span>
+            </div>
+
+            <button type="submit" class="auth-button" disabled>Sign Up</button>
+
+            <p class="auth-redirect">Already have an account? <a href="/login.html">Log In</a></p>
+        </form>
+    </div>
+    
+    <div class="modal-overlay" id="customModalOverlay">
+        <div class="modal-box">
+            <h2 class="modal-title" id="customModalTitle">Modal Title</h2>
+            <p class="modal-body" id="customModalBody">This is the modal message.</p>
+            <textarea id="customModalInput" class="modal-input" placeholder="Enter reason..."></textarea>
+            <div class="modal-buttons">
+                <button class="modal-button cancel" id="customModalCancelBtn">Cancel</button>
+                <button class="modal-button confirm" id="customModalConfirmBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/firebaseConfig.js"></script>
+    <script type="module" src="/js/signup.js"></script>
+    <script type="module" src="/js/ui.js"></script>
+    <script type="module" src="/js/lightbox.js"></script>
+</body>
+</html>

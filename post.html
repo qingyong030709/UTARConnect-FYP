@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post - UTAR Connect</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/post.css">
+    <script type="module" src="/js/auth-guard.js"></script>
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <a href="/index.html" class="logo">
+                <h1>UT<span class="title-red">A</span>R <span class="title-yellow">Connect</span></h1>
+            </a>
+            <div class="header-actions">
+                 <a href="/index.html" class="back-button">Back to Home</a>
+                 <div class="notification-container">
+                    <button id="notificationButton" class="notification-button">
+                        <span>🔔</span>
+                        <span id="notificationBadge" class="notification-badge"></span>
+                    </button>
+                    <div id="notificationDropdown" class="notification-dropdown">
+                        <div class="notification-dropdown-header">Notifications</div>
+                        <div id="notificationList"></div>
+                    </div>
+                </div>
+                <div class="profile-container">
+                    <button id="profileMenuButton" class="profile-button">👤</button>
+                    <div id="profileMenu" class="profile-dropdown">
+                        <a href="/history.html">📜 My History</a>
+                        <a href="/resetpassword.html">🔑 Reset Password</a>
+                        <div class="dropdown-item" id="darkModeToggle">
+                            <span>🌙 Dark Mode</span>
+                            <label class="switch">
+                                <input type="checkbox" id="darkModeCheckbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <a href="https://forms.gle/EtfEj3YKaVVSp6qXA" target="_blank" rel="noopener noreferrer">📝 Feedback</a>
+                        <button id="logoutButton" class="logout-button-dropdown">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <form id="postForm" class="post-form" novalidate>
+            <h2>Create a New Post</h2>
+            
+            <div id="successMessage" class="success-message"></div>
+
+            <label for="postTitle">Post Title:</label>
+            <input type="text" id="postTitle" required placeholder="Enter post title..." maxlength="150">
+
+            <label for="categoryDropdown">Select Category:</label>
+            <select id="categoryDropdown" required>
+                <option value="" disabled selected>Choose a category</option>
+                <option value="Academic & Course Discussions">📚 Academic & Course Discussions</option>
+                <option value="Campus Life & Student Affairs">🏫 Campus Life & Student Affairs</option>
+                <option value="Career & Professional Development">👨‍💼 Career & Professional Development</option>
+                <option value="Suggestions & Improvements">💡 Suggestions & University Improvements</option>
+                <option value="Social">🎉 Social</option>
+            </select>
+
+            <label for="subCategoryDropdown">Select Subcategory:</label>
+            <select id="subCategoryDropdown" required disabled>
+                <option value="" disabled selected>Choose a subcategory</option>
+            </select>
+
+            <label for="facultyDropdown">Select Faculty (Optional):</label>
+            <select id="facultyDropdown">
+                <option value="" selected>None</option>
+                <option value="FICT">Faculty of Information and Communication Technology (FICT)</option>
+                <option value="FAS">Faculty of Arts and Social Science (FAS)</option>
+                <option value="FBF">Faculty of Business and Finance (FBF)</option>
+                <option value="FSc">Faculty of Science (FSc)</option>
+                <option value="FAM">Faculty of Accountancy and Management (FAM)</option>
+                <option value="FEGT">Faculty of Engineering and Green Technology (FEGT)</option>
+                <option value="FCI">Faculty of Creative Industries (FCI)</option>
+            </select>
+
+            <label for="postContent">Post Content:</label>
+            <textarea id="postContent" required placeholder="Write your post here..." maxlength="5000"></textarea>
+            
+            <button type="button" id="togglePollBtn" class="create-poll-button">📊 Create a Poll</button>
+            <div id="pollCreationContainer" class="poll-creation-container">
+                <label for="pollQuestion">Poll Question:</label>
+                <input type="text" id="pollQuestion" placeholder="e.g., Which elective is better?">
+                <label>Poll Options:</label>
+                <div id="pollOptionsContainer">
+                    <div class="poll-option-input-group">
+                        <input type="text" class="poll-option-input" placeholder="Option 1">
+                        <button type="button" class="remove-poll-option-btn" style="display: none;">X</button>
+                    </div>
+                    <div class="poll-option-input-group">
+                        <input type="text" class="poll-option-input" placeholder="Option 2">
+                        <button type="button" class="remove-poll-option-btn" style="display: none;">X</button>
+                    </div>
+                </div>
+                <button type="button" id="addPollOptionBtn" class="create-poll-button" style="width: auto;">Add Option</button>
+            </div>
+
+            <label for="mediaUpload">Upload Image/Video (Optional):</label>
+            <input type="file" id="mediaUpload" accept="image/*, video/*">
+            
+            <div id="mediaPreviewContainer" class="comment-media-preview" style="display: none; max-width: 200px; margin-top: 1rem;"></div>
+
+            <button type="submit" class="submit-button">Post</button>
+        </form>
+    </div>
+    
+    <div class="modal-overlay" id="customModalOverlay">
+        <div class="modal-box">
+            <h2 class="modal-title" id="customModalTitle">Modal Title</h2>
+            <p class="modal-body" id="customModalBody">This is the modal message.</p>
+            <textarea id="customModalInput" class="modal-input" placeholder="Enter reason..."></textarea>
+            <div class="modal-buttons">
+                <button class="modal-button cancel" id="customModalCancelBtn">Cancel</button>
+                <button class="modal-button confirm" id="customModalConfirmBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/firebaseConfig.js"></script>
+    <script type="module" src="/js/modal.js"></script>
+    <script type="module" src="/js/post.js"></script>
+    <script type="module" src="/js/ui.js"></script>
+</body>
+</html>

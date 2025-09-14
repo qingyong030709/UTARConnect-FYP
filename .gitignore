@@ -1,0 +1,31 @@
+# ===================================================================
+#  CRITICAL: Credentials and Secret Keys
+#  NEVER commit these files to a public repository.
+# ===================================================================
+service-account-key.json
+.env
+
+
+# ===================================================================
+#  Python Virtual Environments & Cache
+#  These are specific to your machine and should not be shared.
+# ===================================================================
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+
+# ===================================================================
+#  Operating System Files (macOS, Windows)
+# ===================================================================
+.DS_Store
+Thumbs.db
+
+
+# ===================================================================
+#  IDE and Editor Configuration
+#  These are user-specific settings.
+# ===================================================================
+.vscode/
+.idea/

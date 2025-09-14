@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏫 Campus Life & Student Affairs - UTAR Connect</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body data-category="Campus Life & Student Affairs">
+    <header>
+        <div class="top-bar">
+            <a href="/index.html" class="logo">
+                <h1>UT<span class="title-red">A</span>R <span class="title-yellow">Connect</span></h1>
+            </a>
+            <div class="search-wrapper">
+                <div class="search-container">
+                    <input type="text" id="searchBar" class="search-bar" placeholder="Search...">
+                    <button class="search-button">🔍</button>
+                </div>
+                <div id="searchResultsDropdown" class="search-results-dropdown">
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="/post.html" class="create-post-button">Create Post</a>
+                
+                <div class="notification-container">
+                    <button id="notificationButton" class="notification-button">
+                        <span>🔔</span>
+                        <span id="notificationBadge" class="notification-badge"></span>
+                    </button>
+                    <div id="notificationDropdown" class="notification-dropdown">
+                        <div class="notification-dropdown-header">Notifications</div>
+                        <div id="notificationList">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-container">
+                    <button id="profileMenuButton" class="profile-button">👤</button>
+                    <div id="profileMenu" class="profile-dropdown">
+                        <a href="/history.html">📜 My History</a>
+                        <a href="/resetpassword.html">🔑 Reset Password</a>
+                        <div class="dropdown-item" id="darkModeToggle">
+                            <span>🌙 Dark Mode</span>
+                            <label class="switch">
+                                <input type="checkbox" id="darkModeCheckbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <a href="https://forms.gle/EtfEj3YKaVVSp6qXA" target="_blank" rel="noopener noreferrer">📝 Feedback</a>
+                        <button id="logoutButton" class="logout-button-dropdown">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar-nav">
+            <button class="back-button" onclick="window.location.href='/index.html'">Back to Home</button>
+            <h2>Categories</h2>
+             <div class="category-list">
+                <a href="/academic.html" class="category-button">📚 Academic & Course Discussions</a>
+                <a href="/campus.html" class="category-button">🏫 Campus Life & Student Affairs</a>
+                <a href="/career.html" class="category-button">👨‍💼 Career & Professional Development</a>
+                <a href="/suggestions.html" class="category-button">💡 Suggestions & University Improvements</a>
+                <a href="/social.html" class="category-button">🎉 Social</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="filter-bar">
+                <div class="filter-section" id="categoryHeader">
+                    <h2>🏫 Campus Life & Student Affairs</h2>
+                    <p class="category-subtitle" style="color: var(--light-text-color);">
+                        Share your experiences, find out about events, and discuss clubs and services on campus.
+                    </p>
+                </div>
+
+            <div class="filter-section" id="subtopic-filter-section">
+                <label>Filter by Subcategory:</label>
+                <div class="subtopic-buttons">
+                    <button class="subtopic-button" data-subtopic-key="all">All</button>
+                    <button class="subtopic-button" data-subtopic-key="Campus_Life">🏢 Campus Life</button>
+                    <button class="subtopic-button" data-subtopic-key="Student_Services">ℹ️ Student Services</button>
+                    <button class="subtopic-button" data-subtopic-key="Student_Organizations">👥 Student Organizations</button>
+                    <button class="subtopic-button" data-subtopic-key="Events_Activities">🎪 Events & Activities</button>
+                </div>
+            </div>
+                <div class="filter-section" id="sort-filter-section">
+                    <label for="sort">Sort by:</label>
+                    <select id="sort">
+                        <option value="latest">Latest</option>
+                        <option value="trending">Trending</option>
+                    </select>
+                </div>
+            </div>
+            <div id="postsContainer" class="post-list-container">
+                <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">Loading posts...</div>
+                </div>
+            </div>
+            <div id="paginationContainer" class="pagination-container"></div>
+        </main>
+    </div>
+
+    <div id="mediaLightbox" class="media-lightbox-overlay">
+         <div class="media-lightbox-content">
+             <span class="close-lightbox">×</span>
+             <img src="" alt="Post media" class="lightbox-media" id="lightboxImage">
+             <video controls src="" class="lightbox-media" id="lightboxVideo"></video>
+         </div>
+    </div>
+
+    <div class="modal-overlay" id="customModalOverlay">
+        <div class="modal-box">
+            <h2 class="modal-title" id="customModalTitle">Modal Title</h2>
+            <p class="modal-body" id="customModalBody">This is the modal message.</p>
+            <textarea id="customModalInput" class="modal-input" placeholder="Enter reason..."></textarea>
+            <div class="modal-buttons">
+                <button class="modal-button cancel" id="customModalCancelBtn">Cancel</button>
+                <button class="modal-button confirm" id="customModalConfirmBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/firebaseConfig.js"></script>
+    <script type="module" src="/js/category.js"></script>
+    <script type="module" src="/js/search.js"></script>
+    <script type="module" src="/js/ui.js"></script>
+    <script type="module" src="/js/auth-guard.js"></script>
+    <script type="module" src="/js/lightbox.js"></script>
+</body>
+</html>

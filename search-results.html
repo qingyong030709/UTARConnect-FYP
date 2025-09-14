@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - UTAR Connect</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script type="module" src="/js/auth-guard.js"></script>
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <a href="/index.html" class="logo">
+                <h1>UT<span class="title-red">A</span>R <span class="title-yellow">Connect</span></h1>
+            </a>
+            <div class="search-wrapper">
+                <div class="search-container">
+                    <input type="text" id="searchBar" class="search-bar" placeholder="Search...">
+                    <button class="search-button">🔍</button>
+                </div>
+                <div id="searchResultsDropdown" class="search-results-dropdown">
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="/post.html" class="create-post-button">Create Post</a>
+                <div class="notification-container">
+                    <button id="notificationButton" class="notification-button">
+                        <span>🔔</span>
+                        <span id="notificationBadge" class="notification-badge"></span>
+                    </button>
+                    <div id="notificationDropdown" class="notification-dropdown">
+                        <div class="notification-dropdown-header">Notifications</div>
+                        <div id="notificationList"></div>
+                    </div>
+                </div>
+                <div class="profile-container">
+                    <button id="profileMenuButton" class="profile-button">👤</button>
+                    <div id="profileMenu" class="profile-dropdown">
+                        <a href="/history.html">📜 My History</a>
+                        <a href="/resetpassword.html">🔑 Reset Password</a>
+                        <div class="dropdown-item" id="darkModeToggle">
+                            <span>🌙 Dark Mode</span>
+                            <label class="switch">
+                                <input type="checkbox" id="darkModeCheckbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <a href="https://forms.gle/EtfEj3YKaVVSp6qXA" target="_blank" rel="noopener noreferrer">📝 Feedback</a>
+                        <button id="logoutButton" class="logout-button-dropdown">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <main class="main-content">
+             <h2 id="searchTitle">Search Results</h2>
+
+             <div class="filter-bar">
+                <div class="filter-section" id="sort-filter-section">
+                    <label for="categoryFilter">Category:</label>
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="Academic & Course Discussions">📚 Academic & Course Discussions</option>
+                        <option value="Campus Life & Student Affairs">🏫 Campus Life & Student Affairs</option>
+                        <option value="Career & Professional Development">👨‍💼 Career & Professional Development</option>
+                        <option value="Suggestions & Improvements">💡 Suggestions & University Improvements</option>
+                        <option value="Social">🎉 Social</option>
+                    </select>
+                </div>
+                <div class="filter-section" id="sort-filter-section">
+                    <label for="facultyFilter">Faculty:</label>
+                    <select id="facultyFilter">
+                        <option value="">All Faculties</option>
+                        <option value="FICT">FICT</option>
+                        <option value="FAS">FAS</option>
+                        <option value="FBF">FBF</option>
+                        <option value="FSc">FSc</option>
+                        <option value="FAM">FAM</option>
+                        <option value="FEGT">FEGT</option>
+                        <option value="FCI">FCI</option>
+                    </select>
+                </div>
+             </div>
+
+             <div id="searchResultsContainer" class="post-list-container" style="position: relative;">
+                 <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+                     <div class="loading-spinner"></div>
+                     <div class="loading-text">Loading results...</div>
+                 </div>
+             </div>
+        </main>
+    </div>
+
+    <div id="mediaLightbox" class="media-lightbox-overlay">
+         <div class="media-lightbox-content">
+             <span class="close-lightbox">×</span>
+             <img src="" alt="Post media" class="lightbox-media" id="lightboxImage">
+             <video controls src="" class="lightbox-media" id="lightboxVideo"></video>
+         </div>
+    </div>
+    
+    <div class="modal-overlay" id="customModalOverlay">
+        <div class="modal-box">
+            <h2 class="modal-title" id="customModalTitle">Modal Title</h2>
+            <p class="modal-body" id="customModalBody">This is the modal message.</p>
+            <textarea id="customModalInput" class="modal-input" placeholder="Enter reason..."></textarea>
+            <div class="modal-buttons">
+                <button class="modal-button cancel" id="customModalCancelBtn">Cancel</button>
+                <button class="modal-button confirm" id="customModalConfirmBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/firebaseConfig.js"></script>
+    <script type="module" src="/js/search.js"></script>
+    <script type="module" src="/js/search-results.js"></script>
+    <script type="module" src="/js/ui.js"></script>
+    <script type="module" src="/js/auth-guard.js"></script>
+    <script type="module" src="/js/lightbox.js"></script>
+</body>
+</html>

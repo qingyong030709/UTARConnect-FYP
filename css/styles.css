@@ -1,0 +1,1405 @@
+/* FileName: css/styles.css */
+
+/*
+* =========================================================================================
+*   1. Imports & Global Setup
+* =========================================================================================
+*/
+
+/* --- Google Font Import --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* --- CSS Variables (Light & Dark Themes) --- */
+:root {
+    --primary-color: #003C71;
+    --accent-red: #D22030;
+    --accent-yellow: #FFC425;
+    --background-color: #f4f7f6;
+    --card-background: #ffffff;
+    --text-color: #2c3e50;
+    --light-text-color: #8a95a5;
+    --border-color: #e1e4e8;
+    --shadow-color: rgba(44, 62, 80, 0.1);
+    --success-color: #2ecc71;
+    --error-color: #e74c3c;
+    --font-family: 'Poppins', sans-serif;
+    --input-background: #f9fafb;
+}
+
+body.dark-mode {
+    --primary-color: #58a6ff;
+    --background-color: #0d1117;
+    --card-background: #161b22;
+    --text-color: #c9d1d9;
+    --light-text-color: #8b949e;
+    --border-color: #30363d;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --input-background: #010409;
+}
+
+body.dark-mode .logo h1,
+body.dark-mode .logo-font {
+    color: #ffffff;
+}
+
+/* --- General Resets & Body Styles --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html {
+    scroll-behavior: smooth;
+}
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+}
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: 100%;
+}
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+a:hover {
+    color: var(--accent-red);
+}
+mark {
+    background-color: var(--accent-yellow);
+    color: var(--text-color);
+    padding: 2px 0;
+    border-radius: 3px;
+}
+body.dark-mode mark {
+    color: #0d1117;
+}
+
+/*
+* =========================================================================================
+*   2. Header & Navigation
+* =========================================================================================
+*/
+header {
+    background-color: var(--card-background);
+    box-shadow: 0 2px 4px var(--shadow-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border-color);
+}
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.logo h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+.logo .title-red {
+    color: var(--accent-red);
+}
+.logo .title-yellow {
+    color: var(--accent-yellow);
+}
+.logo-font {
+    color: var(--primary-color);
+}
+.logo-font .title-red {
+    color: var(--accent-red);
+}
+.logo-font .title-yellow {
+    color: var(--accent-yellow);
+}
+
+/* --- Search Bar --- */
+.search-wrapper {
+    position: relative;
+    flex-grow: 1;
+    max-width: 500px;
+    margin: 0 2rem;
+}
+.search-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    background-color: var(--input-background);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.search-container:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+}
+.search-bar {
+    border: none;
+    outline: none;
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+    width: 100%;
+    background-color: transparent;
+    color: var(--text-color);
+}
+.search-button {
+    border: none;
+    background-color: transparent;
+    padding: 0 1rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--light-text-color);
+}
+.search-results-dropdown {
+    display: none;
+    position: absolute;
+    top: 110%;
+    left: 0;
+    width: 100%;
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1001;
+}
+.search-results-dropdown a {
+    display: block;
+    padding: 0.8rem 1.2rem;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+}
+.search-results-dropdown a:last-child {
+    border-bottom: none;
+}
+.search-results-dropdown a:hover {
+    background-color: var(--background-color);
+}
+.search-results-dropdown .show-all-results {
+    font-weight: 600;
+    color: var(--primary-color);
+    text-align: center;
+}
+.search-results-dropdown .no-results {
+    padding: 1rem;
+    color: var(--light-text-color);
+    text-align: center;
+}
+
+/* --- Header Actions, Notifications & Profile --- */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.create-post-button, .back-button {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.create-post-button:hover, .back-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+.notification-container, .profile-container {
+    position: relative;
+}
+.notification-button, .profile-button {
+    background-color: transparent;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.3s;
+    color: var(--light-text-color);
+}
+.notification-button:hover, .profile-button:hover {
+    border-color: var(--primary-color);
+}
+.notification-button {
+    position: relative;
+}
+.notification-badge {
+    position: absolute;
+    top: -2px;
+    right: -4px;
+    background-color: var(--accent-red);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+.notification-badge.visible {
+    display: flex;
+}
+.notification-dropdown, .profile-dropdown {
+    display: none;
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    width: 320px;
+    z-index: 1001;
+    overflow: hidden;
+    max-height: 400px;
+    overflow-y: auto;
+}
+.profile-dropdown {
+    width: 220px;
+}
+.notification-dropdown.active, .profile-dropdown.active {
+    display: block;
+}
+.notification-dropdown-header {
+    padding: 0.8rem 1.2rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+}
+.notification-item {
+    padding: 0.8rem 1.2rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.notification-item:last-child {
+    border-bottom: none;
+}
+.notification-item.unread {
+    background-color: var(--background-color);
+}
+.notification-item a {
+    flex-grow: 1;
+    text-decoration: none;
+    color: var(--text-color);
+}
+.notification-close-btn {
+    background: none;
+    border: none;
+    color: var(--light-text-color);
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    border-radius: 50%;
+    line-height: 1;
+}
+.notification-close-btn:hover {
+    color: var(--accent-red);
+    background-color: var(--background-color);
+}
+.profile-dropdown a, .profile-dropdown .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 1.2rem;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+}
+.profile-dropdown .dropdown-item {
+    justify-content: space-between;
+}
+.profile-dropdown a:hover, .profile-dropdown .dropdown-item:hover {
+    background-color: var(--background-color);
+}
+.logout-button-dropdown {
+    background: none;
+    border: none;
+    color: var(--accent-red);
+    font-weight: 600;
+    width: 100%;
+    text-align: left;
+    padding: 0.8rem 1.2rem;
+    cursor: pointer;
+}
+.logout-button-dropdown:hover {
+    background-color: var(--background-color);
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+}
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+.slider.round {
+    border-radius: 34px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/*.profile-dropdown rules */
+.profile-dropdown-user {
+    padding: 0.8rem 1.2rem;
+    font-weight: 600;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    border-bottom: 2px solid var(--border-color);
+    text-align: center;
+    cursor: default; /* Make it non-interactive */
+}
+
+/*
+* =========================================================================================
+*   3. Main Layout & Page Structure
+* =========================================================================================
+*/
+.container {
+    display: flex;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+.sidebar-nav {
+    flex: 0 0 280px;
+    position: sticky;
+    top: 100px;
+    align-self: flex-start;
+}
+.sidebar-nav > .back-button {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+.sidebar-nav h2 {
+    font-size: 1.7rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+    text-align: center;
+}
+.category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.category-button {
+    display: block;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    text-align: center; /* <-- THIS IS A NEW LINE */
+}
+.category-button:hover {
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    transform: translateX(5px);
+}
+.category-button.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    font-weight: 600;
+}
+.main-content {
+    flex-grow: 1;
+    min-width: 0;
+}
+.main-content > .back-button {
+    display: inline-flex;
+    margin-bottom: 1.5rem;
+}
+.main-content h2 {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+.filter-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.filter-section {
+    padding: 1rem;
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+#sort-filter-section {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.8rem;
+}
+#sort-filter-section label {
+    font-weight: 600;
+}
+#sort-filter-section select {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--input-background);
+    color: var(--text-color);
+}
+#subtopic-filter-section label {
+    font-weight: 600;
+}
+.subtopic-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.subtopic-button {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid transparent;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.subtopic-button:hover {
+    background-color: var(--border-color);
+}
+.subtopic-button.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    font-weight: 600;
+}
+
+/*
+* =========================================================================================
+*   4. Post Card Styles
+* =========================================================================================
+*/
+.post-list, .post-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.post-card {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 5px var(--shadow-color);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px var(--shadow-color);
+}
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+.author-info h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.post-date {
+    font-size: 0.85rem;
+    color: var(--light-text-color);
+}
+.post-tags-group {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+.post-category, .post-info-tag {
+    background-color: var(--background-color);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+.post-title {
+    margin-bottom: 0.8rem;
+}
+.post-title a {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+.post-title a:hover {
+    color: var(--primary-color);
+}
+.post-content {
+    margin-bottom: 1rem;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    display: -webkit-box;
+}
+.post-media-container {
+    margin-top: 1rem;
+    max-height: 500px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+.post-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+.post-footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+    margin-top: 1rem;
+    color: var(--light-text-color);
+}
+.post-footer p {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+.like-button {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.like-button.liked {
+    background-color: var(--accent-red);
+    color: #fff;
+    border-color: var(--accent-red);
+}
+.no-posts, .error-message {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.2rem;
+    color: var(--light-text-color);
+    background-color: var(--card-background);
+    border-radius: 8px;
+}
+.error-message {
+    color: var(--error-color);
+}
+
+/*
+* =========================================================================================
+*   5. Single Post, Poll & Comment Styles
+* =========================================================================================
+*/
+.post-view-container {
+    background-color: var(--card-background);
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+.post-view-container h2 {
+    font-size: 2.5rem;
+    line-height: 1.3;
+}
+.post-view-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    color: var(--light-text-color);
+}
+.post-view-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+.post-view-media-container {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+.post-view-media {
+    max-width: 100%;
+    max-height: 600px;
+    border-radius: 8px;
+}
+
+/* --- REVISED: Poll Styles --- */
+.poll-container {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--background-color);
+}
+.poll-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+.poll-question {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.poll-total-votes {
+    font-size: 0.9rem;
+    color: var(--light-text-color);
+}
+.poll-option {
+    margin-bottom: 0.8rem;
+}
+.vote-btn {
+    width: 100%;
+    text-align: left;
+    padding: 0.8rem 1.2rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-background);
+    color: var(--text-color);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+.vote-btn:hover {
+    border-color: var(--primary-color);
+    background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
+}
+.vote-btn.voted-for {
+    background-color: var(--primary-color);
+    color: #fff;
+    font-weight: 600;
+    border-color: var(--primary-color);
+}
+
+.post-view-footer {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 1.1rem;
+}
+.post-view-footer p {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.comments-section {
+    background-color: var(--card-background);
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    margin-top: 2rem;
+}
+.comments-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.comment-form textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    resize: vertical;
+    background-color: var(--input-background);
+    color: var(--text-color);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.comment-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+}
+/* This button is now inside .comment-form-actions */
+.comment-form button[type="submit"] {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.comment-form button[type="submit"]:hover:not(:disabled) {
+    background-color: #002c52;
+}
+.comment-form button:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+}
+.comments-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.comment-card {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+.comment-card:last-child {
+    border-bottom: none;
+}
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+.comment-author {
+    font-weight: 600;
+}
+.comment-date {
+    font-size: 0.8rem;
+    color: var(--light-text-color);
+}
+.comment-content {
+    line-height: 1.7;
+}
+.comment-actions {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.replies-container {
+    margin-top: 1rem;
+    padding-left: 20px;
+    border-left: 2px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.reply-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    background-color: var(--background-color);
+    border-radius: 8px;
+}
+.reply-form textarea {
+    width: 100%;
+    min-height: 60px;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    resize: vertical;
+}
+
+/* --- REVISED: Reply Form Action Buttons --- */
+.reply-form .comment-form-actions {
+    margin-top: 0.5rem; /* Removes extra top margin from main form style */
+}
+.comment-form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+.reply-form-actions button {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+}
+.reply-form-actions .submit-reply-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+.reply-form-actions .cancel-reply-btn {
+    background-color: var(--card-background);
+    color: var(--text-color);
+}
+
+/* --- NEW: Media Upload in Comments --- */
+.media-upload-btn {
+    background-color: transparent;
+    border: none;
+    color: var(--light-text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 50%;
+    line-height: 1;
+}
+.media-upload-btn:hover {
+    color: var(--primary-color);
+    background-color: var(--background-color);
+}
+.comment-media-preview {
+    margin-bottom: 0.5rem;
+    position: relative;
+    max-width: 150px;
+}
+.comment-media-preview img,
+.comment-media-preview video {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+.remove-media-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.comment-media-display {
+    margin-top: 1rem;
+    max-width: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.comment-media-display img,
+.comment-media-display video {
+    width: 100%;
+    display: block;
+}
+
+/*
+* =========================================================================================
+*   6. Components (Modals, Pop-ups, Loaders)
+* =========================================================================================
+*/
+.media-lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+.media-lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+.lightbox-media {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    border-radius: 5px;
+}
+.close-lightbox {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    font-size: 2.5rem;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 300;
+}
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 500;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+}
+body.dark-mode .loading-overlay {
+    background-color: rgba(13, 17, 23, 0.8);
+}
+.loading-spinner {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--primary-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+body.dark-mode .loading-spinner {
+    border: 5px solid var(--border-color);
+    border-top-color: var(--primary-color);
+}
+.loading-text {
+    margin-top: 1rem;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- Edit Modals (for Posts & Comments) --- */
+.media-lightbox-overlay .post-form {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 600px;
+    margin: 1rem;
+    position: relative;
+    padding: 2rem 2.5rem;
+    border: 1px solid var(--border-color);
+    animation: fadeInScale 0.3s ease-out;
+}
+.media-lightbox-overlay .post-form .close-lightbox {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--light-text-color);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.media-lightbox-overlay .post-form .close-lightbox:hover {
+    color: var(--text-color);
+}
+.media-lightbox-overlay .post-form h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: var(--primary-color);
+}
+.media-lightbox-overlay .post-form label {
+    display: block;
+    font-weight: 500;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+.media-lightbox-overlay .post-form input[type="text"],
+.media-lightbox-overlay .post-form textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: var(--input-background);
+    color: var(--text-color);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.media-lightbox-overlay .post-form input[type="text"]:focus,
+.media-lightbox-overlay .post-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 15%, transparent);
+}
+.media-lightbox-overlay .post-form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+.media-lightbox-overlay .post-form .submit-button {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 0.9rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* --- Custom Modal (Alert/Confirm/Prompt) Styles --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 3000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.modal-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+.modal-box {
+    background-color: var(--card-background);
+    color: var(--text-color);
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+.modal-overlay.visible .modal-box {
+    transform: scale(1);
+}
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+.modal-body {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: var(--light-text-color);
+}
+.modal-input {
+    display: none;
+    width: 100%;
+    min-height: 80px;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    resize: vertical;
+    background-color: var(--input-background);
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.modal-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+}
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.modal-button {
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    min-width: 120px;
+}
+.modal-button:hover {
+    transform: translateY(-2px);
+}
+.modal-button.cancel {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+.modal-button.confirm {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+.modal-button.danger {
+    background-color: var(--accent-red);
+    color: #fff;
+}
+
+/*
+* =========================================================================================
+*   7. Page-Specific Styles
+* =========================================================================================
+*/
+
+/* --- History Page --- */
+.history-tabs {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+.history-tab-button {
+    padding: 0.8rem 1.5rem;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--light-text-color);
+    border-bottom: 3px solid transparent;
+    transform: translateY(2px);
+}
+.history-tab-button.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+#historySearchWrapper {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.5rem;
+}
+.post-footer .action-buttons {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.action-button {
+    background: none;
+    border: none;
+    color: var(--light-text-color);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+.action-button:hover {
+    background-color: var(--background-color);
+    color: var(--primary-color);
+}
+.action-button.delete-btn {
+    color: var(--accent-red);
+}
+.action-button.delete-btn:hover {
+    background-color: var(--accent-red);
+    color: #fff;
+}
+
+/* --- REVISED: Pagination Styles --- */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 2.5rem;
+}
+.pagination-button {
+    background-color: var(--card-background);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 0.6rem 1.1rem;
+    min-width: 44px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+.pagination-button:hover:not(:disabled) {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.pagination-button.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+    cursor: default;
+    box-shadow: 0 4px 10px color-mix(in srgb, var(--primary-color) 25%, transparent);
+}
+.pagination-button:disabled {
+    color: var(--light-text-color);
+    background-color: var(--background-color);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+.pagination-ellipsis {
+    padding: 0.6rem 0.2rem;
+    color: var(--light-text-color);
+    font-weight: 600;
+}
+
+/* --- Admin Panel --- */
+.report-reasons-section {
+    background-color: var(--card-background);
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    margin-top: 2rem;
+}
+.report-reasons-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.report-reasons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.report-reason-card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: var(--background-color);
+}
+.report-reason-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    color: var(--light-text-color);
+    font-size: 0.9rem;
+}
+.report-author {
+    font-weight: 600;
+}
+.report-reason-content {
+    color: var(--text-color);
+}
+
+/* Center Welcome & Category Header Titles */
+#welcomeHeader ,
+#categoryHeader {
+    text-align: center;
+}
+
+/*
+* =========================================================================================
+*   8. Responsive Media Queries
+* =========================================================================================
+*/
+@media (max-width: 992px) {
+    .container {
+        flex-direction: column;
+    }
+    .sidebar-nav {
+        position: static;
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+    .sidebar-nav h2 {
+        text-align: center;
+    }
+    .category-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .search-wrapper {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+    }
+    .header-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .post-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}

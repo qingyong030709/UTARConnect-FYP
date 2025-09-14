@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - UTAR Connect</title>
+    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <a href="/index.html" class="logo">
+                <h1>UT<span class="title-red">A</span>R <span class="title-yellow">Connect</span></h1>
+            </a>
+             <div>
+                 <button id="logoutButton" class="logout-button" style="display: none;">Logout</button>
+             </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <form id="loginForm" class="auth-form" novalidate>
+            <h2>Login to UTAR Connect</h2>
+
+            <div id="authError" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
+
+            <label for="loginEmail">UTAR Email:</label>
+            <div class="input-container">
+                <input type="email" id="loginEmail" required
+                       placeholder="e.g., name@1utar.my or name@utar.edu.my"
+                       pattern=".+@(1utar\.my|utar\.edu\.my)$"
+                       title="Must be a valid UTAR email address (@1utar.my or @utar.edu.my)">
+                 <span class="feedback-icon"></span>
+            </div>
+
+            <label for="loginPassword">Password:</label>
+            <div class="password-container">
+                <input type="password" id="loginPassword" required
+                       placeholder="Enter your password"
+                       minlength="6">
+                <span class="toggle-password">👁️</span>
+            </div>
+
+            <button type="submit" class="auth-button">Login</button>
+
+            <div class="auth-links">
+                <p class="auth-redirect">Don't have an account? <a href="/signup.html">Sign Up</a></p>
+                <p class="forgot-password"><a href="/forgotpassword.html">Forgot Password?</a></p>
+            </div>
+        </form>
+    </div>
+    
+    <div class="modal-overlay" id="customModalOverlay">
+        <div class="modal-box">
+            <h2 class="modal-title" id="customModalTitle">Modal Title</h2>
+            <p class="modal-body" id="customModalBody">This is the modal message.</p>
+            <textarea id="customModalInput" class="modal-input" placeholder="Enter reason..."></textarea>
+            <div class="modal-buttons">
+                <button class="modal-button cancel" id="customModalCancelBtn">Cancel</button>
+                <button class="modal-button confirm" id="customModalConfirmBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/firebaseConfig.js"></script>
+    <script type="module" src="/js/login.js"></script>
+    <script type="module" src="/js/ui.js"></script>
+    <script type="module" src="/js/lightbox.js"></script>
+</body>
+</html>

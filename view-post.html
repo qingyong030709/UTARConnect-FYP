@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Post - UTAR Connect</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script type="module" src="/js/auth-guard.js"></script>
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <a href="/index.html" class="logo">
+                <h1>UT<span class="title-red">A</span>R <span class="title-yellow">Connect</span></h1>
+            </a>
+            <div class="search-wrapper">
+                <div class="search-container">
+                    <input type="text" id="searchBar" class="search-bar" placeholder="Search...">
+                    <button class="search-button">🔍</button>
+                </div>
+                <div id="searchResultsDropdown" class="search-results-dropdown">
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="/index.html" class="back-button">Back to Home</a>
+                <div class="notification-container">
+                    <button id="notificationButton" class="notification-button">
+                        <span>🔔</span>
+                        <span id="notificationBadge" class="notification-badge"></span>
+                    </button>
+                    <div id="notificationDropdown" class="notification-dropdown">
+                        <div class="notification-dropdown-header">Notifications</div>
+                        <div id="notificationList"></div>
+                    </div>
+                </div>
+                <div class="profile-container">
+                    <button id="profileMenuButton" class="profile-button">👤</button>
+                    <div id="profileMenu" class="profile-dropdown">
+                        <a href="/history.html">📜 My History</a>
+                        <a href="/resetpassword.html">🔑 Reset Password</a>
+                        <div class="dropdown-item" id="darkModeToggle">
+                            <span>🌙 Dark Mode</span>
+                            <label class="switch">
+                                <input type="checkbox" id="darkModeCheckbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <a href="https://forms.gle/EtfEj3YKaVVSp6qXA" target="_blank" rel="noopener noreferrer">📝 Feedback</a>
+                        <button id="logoutButton" class="logout-button-dropdown">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <main class="main-content">
+             <div id="postViewContainer" class="post-view-container" style="position: relative;">
+                 <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+                     <div class="loading-spinner"></div>
+                     <div class="loading-text">Loading post...</div>
+                 </div>
+             </div>
+
+             <div class="comments-section">
+                <h3>Comments</h3>
+                <form id="commentForm" class="comment-form">
+                    <textarea id="commentContent" placeholder="Write a comment..." required maxlength="2000"></textarea>
+                    
+                    <div class="comment-media-preview" id="mainCommentMediaPreview" style="display: none;"></div>
+
+                    <div class="comment-form-actions">
+                        <div></div> 
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <button type="button" id="mainCommentMediaBtn" class="media-upload-btn" title="Attach Image/Video">📎</button>
+                            <input type="file" id="mainCommentMediaInput" accept="image/*,video/*" style="display: none;" />
+                            <button type="submit">Post Comment</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="commentsContainer" class="comments-container"></div>
+            </div>
+        </main>
+    </div>
+
+    <div id="mediaLightbox" class="media-lightbox-overlay">
+        <div class="media-lightbox-content">
+            <span class="close-lightbox">×</span>
+            <img src="" alt="Post media" class="lightbox-media" id="lightboxImage">
+            <video controls src="" class="lightbox-media" id="lightboxVideo"></video>
+        </div>
+    </div>
+
+    <div id="editCommentModal" class="media-lightbox-overlay" style="display: none;">
+        <div class="post-form">
+             <span class="close-lightbox">×</span> 
+             <h2>Edit Comment</h2>
+             <input type="hidden" id="editCommentId">
+             <label for="editCommentContent">Content:</label>
+             <textarea id="editCommentContent" required></textarea>
+             <button id="saveCommentButton" class="submit-button create-post-button">Save Changes</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="customModalOverlay">
+        <div class="modal-box">
+            <h2 class="modal-title" id="customModalTitle">Modal Title</h2>
+            <p class="modal-body" id="customModalBody">This is the modal message.</p>
+            <textarea id="customModalInput" class="modal-input" placeholder="Enter reason..."></textarea>
+            <div class="modal-buttons">
+                <button class="modal-button cancel" id="customModalCancelBtn">Cancel</button>
+                <button class="modal-button confirm" id="customModalConfirmBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/firebaseConfig.js"></script>
+    <script type="module" src="/js/modal.js"></script>
+    <script type="module" src="/js/view-post.js"></script>
+    <script type="module" src="/js/search.js"></script> 
+    <script type="module" src="/js/ui.js"></script>
+    <script type="module" src="/js/lightbox.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+transformers
+torch
+datasets
+scikit-learn
+pandas
+Flask
+flask-cors
+Pillow
+cloudinary
+firebase-admin
+
+python-dotenv

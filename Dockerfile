@@ -1,0 +1,29 @@
+# Use an official and slim Python runtime as a parent image for a smaller final size.
+FROM python:3.9-slim
+
+# Set the working directory inside the container to /app.
+# All subsequent commands will run from this directory.
+WORKDIR /app
+
+# Copy the requirements file first. This is a best practice for Docker layer caching.
+# If requirements.txt doesn't change, Docker can reuse this layer, speeding up future builds.
+COPY requirements.txt .
+
+# Install the Python dependencies specified in requirements.txt.
+# --no-cache-dir ensures that pip doesn't store the download cache, making the image smaller.
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of your application's source code (app.py, detector.py, etc.)
+# and model files into the container at /app.
+COPY . .
+
+# Define the command to run your application using Gunicorn, a production-ready web server.
+# This command tells Gunicorn to:
+# --bind :$PORT         -> Listen on the port provided by the cloud environment (like Google Cloud Run).
+# --workers 1           -> Use a single worker process (a good default for a small container).
+# --threads 8           -> Allow the worker to handle up to 8 requests concurrently using threads.
+# --timeout 0           -> Disable the worker timeout. This is CRITICAL for your app, as the
+#                          AI models can take a long time to load on the first request. Without this,
+#                          Gunicorn might kill the process before it's ready.
+# app:app               -> Run the 'app' variable (your Flask app) from the 'app.py' module.
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
