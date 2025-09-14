@@ -66,7 +66,7 @@ if (resetPasswordForm) {
             await updatePassword(currentUser, newPassword);
             
             // informative success message 
-            await showAlert("Your password has been changed. For your security, you will now be logged out.", "Password Updated Successfully");
+            await showAutoRedirectAlert("Your password has been changed. For your security, you will now be logged out.", "Password Updated Successfully");
             
             currentPasswordInput.disabled = true;
             newPasswordInput.disabled = true;
