@@ -64,8 +64,9 @@ def get_foul_word_detector():
     if _foul_word_detector is None:
         print("Initializing Foul Word Detector for the first time...")
         try:
-            MODEL_PATH = './toxic-content-model'
-            _foul_word_detector = FoulWordDetector(model_path=MODEL_PATH)
+            # --- THIS IS THE CHANGE ---
+            # We no longer pass a local path. It will use its new default.
+            _foul_word_detector = FoulWordDetector()
             print("Foul Word Detector is now ready.")
         except Exception as e:
             print(f"FATAL ERROR: Could not initialize Foul Word Model. Error: {e}")
