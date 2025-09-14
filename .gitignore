@@ -15,6 +15,12 @@ venv/
 __pycache__/
 *.pyc
 
+# ===================================================================
+#  Machine Learning Models & Large Data
+#  These should not be stored in Git.
+# ===================================================================
+toxic-content-model/
+
 
 # ===================================================================
 #  Operating System Files (macOS, Windows)
