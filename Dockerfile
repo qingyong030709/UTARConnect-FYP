@@ -18,12 +18,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Define the command to run your application using Gunicorn, a production-ready web server.
-# This command tells Gunicorn to:
-# --bind :$PORT         -> Listen on the port provided by the cloud environment (like Google Cloud Run).
-# --workers 1           -> Use a single worker process (a good default for a small container).
-# --threads 8           -> Allow the worker to handle up to 8 requests concurrently using threads.
-# --timeout 0           -> Disable the worker timeout. This is CRITICAL for your app, as the
-#                          AI models can take a long time to load on the first request. Without this,
-#                          Gunicorn might kill the process before it's ready.
-# app:app               -> Run the 'app' variable (your Flask app) from the 'app.py' module.
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
+# This is more robust than using Flask's built-in server for production deployments.
+CMD ["python", "app.py"]

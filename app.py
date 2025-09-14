@@ -158,3 +158,6 @@ def delete_media():
             return jsonify({'error': 'Cloudinary deletion failed', 'details': delete_result}), 500
     except Exception as e:
         return jsonify({'error': f'An internal error occurred: {e}'}), 500
+    
+if __name__ == "__main__":
+    app.run(debug=False, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
