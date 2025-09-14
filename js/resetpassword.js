@@ -8,14 +8,13 @@ import {
     updatePassword,
     signOut
 } from "./firebaseConfig.js";
-import { showAlert } from './modal.js';
+// --- Step 1: Import showAutoRedirectAlert alongside showAlert ---
+import { showAlert, showAutoRedirectAlert } from './modal.js';
 
 const resetPasswordForm = document.getElementById('resetPasswordForm');
 const currentPasswordInput = document.getElementById('currentPassword');
 const newPasswordInput = document.getElementById('newPassword');
 const confirmPasswordInput = document.getElementById('confirmPassword');
-const authErrorElement = document.getElementById('authError');
-const successMessageElement = document.getElementById('successMessage');
 const submitButton = resetPasswordForm.querySelector('.auth-button');
 
 onAuthStateChanged(auth, (user) => {
@@ -55,26 +54,28 @@ if (resetPasswordForm) {
         submitButton.disabled = true;
         submitButton.textContent = 'Updating...';
         submitButton.classList.add('loading');
-        
-        // Hide old text elements just in case
-        authErrorElement.classList.remove('visible');
-        successMessageElement.classList.remove('visible');
 
         try {
             const credential = EmailAuthProvider.credential(currentUser.email, currentPassword);
             await reauthenticateWithCredential(currentUser, credential);
             await updatePassword(currentUser, newPassword);
             
-            // informative success message 
-            await showAutoRedirectAlert("Your password has been changed. For your security, you will now be logged out.", "Password Updated Successfully");
+            // --- Step 2: Use the auto-redirecting modal ---
+            // The new message is similar to the forgot password page.
+            showAutoRedirectAlert("Password updated successfully! For your security, you will be logged out and redirected to the login page.", "Password Updated");
             
+            // Disable all form fields after success
             currentPasswordInput.disabled = true;
             newPasswordInput.disabled = true;
             confirmPasswordInput.disabled = true;
             submitButton.textContent = 'Success!';
 
-            await signOut(auth);
-            window.location.href = '/login.html';
+            // --- Step 3: Wrap the logout and redirect in a setTimeout ---
+            // This gives the user time to read the modal message.
+            setTimeout(async () => {
+                await signOut(auth);
+                window.location.href = '/login.html';
+            }, 3000); // 3-second delay
 
         } catch (error) {
             console.error("Password reset error:", error);
