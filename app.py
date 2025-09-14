@@ -11,25 +11,23 @@ import firebase_admin
 from firebase_admin import credentials, auth, firestore
 from dotenv import load_dotenv
 
-# Load environment variables from .env file for local development
 load_dotenv()
 
-# Initialize Flask app
 app = Flask(__name__)
 CORS(app)
 
 # --- CORRECTED INITIALIZATION LOGIC ---
-# Initialize Firebase Admin ONCE at the global scope. This is essential.
+# In a Google Cloud environment (like Cloud Run), initializing without arguments
+# allows the SDK to automatically use the environment's default service account.
+# This is the recommended and most robust method for production.
 try:
-    print("Initializing Firebase Admin SDK...")
-    cred = credentials.Certificate("service-account-key.json")
-    firebase_admin.initialize_app(cred)
+    print("Initializing Firebase Admin SDK using Application Default Credentials...")
+    firebase_admin.initialize_app()
     print("Firebase Admin SDK initialized successfully.")
 except Exception as e:
     print(f"FATAL ERROR: Could not initialize Firebase Admin SDK. Error: {e}")
 
 # --- LAZY-LOADED SINGLETONS ---
-# These variables will be initialized only once when they are first needed.
 _db_client = None
 _foul_word_detector = None
 _nsfw_detector = None
