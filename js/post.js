@@ -231,7 +231,7 @@ function setupPostFormListener() {
         
         const titleToxicityResult = await checkTextToxicity(postTitle);
         if (titleToxicityResult.is_toxic) {
-            showAlert(`Post cannot be submitted. The title was flagged as potentially inappropriate (Confidence: ${titleToxicityResult.confidence_score}).`, 'Content Warning');
+            showAlert('Your title contains language that may be inappropriate. Please rephrase it to continue.', 'Content Warning');
             submitButton.disabled = false;
             submitButton.textContent = 'Post';
             submitButton.classList.remove('loading');
@@ -240,7 +240,7 @@ function setupPostFormListener() {
         
         const contentToxicityResult = await checkTextToxicity(postContent);
         if (contentToxicityResult.is_toxic) {
-            showAlert(`Post cannot be submitted. The content was flagged as potentially inappropriate (Confidence: ${contentToxicityResult.confidence_score}).`, 'Content Warning');
+            showAlert('Your post contains language that may be inappropriate. Please rephrase it to continue.', 'Content Warning');
             submitButton.disabled = false;
             submitButton.textContent = 'Post';
             submitButton.classList.remove('loading');
@@ -251,7 +251,7 @@ function setupPostFormListener() {
             submitButton.textContent = 'Analyzing image...';
             const nsfwResult = await checkImageNsfw(file);
             if (nsfwResult.is_nsfw) {
-                showAlert(`Post cannot be submitted. The uploaded image was flagged as potentially NSFW (Score: ${nsfwResult.score}).`, 'Image Warning');
+                showAlert('The uploaded image was flagged as potentially inappropriate and cannot be submitted. Please choose a different image.', 'Image Warning');
                 submitButton.disabled = false;
                 submitButton.textContent = 'Post';
                 submitButton.classList.remove('loading');

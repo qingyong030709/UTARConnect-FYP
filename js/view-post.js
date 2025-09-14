@@ -486,7 +486,7 @@ async function handlePostReply(content, parentId, submitButton) {
     submitButton.textContent = 'Checking...';
     const toxicityResult = await checkContentToxicity(content);
     if (toxicityResult.is_toxic) {
-        showAlert(`Your reply cannot be posted because it was flagged as potentially inappropriate (Confidence: ${toxicityResult.confidence_score}).`, 'Content Warning');
+        showAlert('Your reply contains language that may be inappropriate. Please rephrase it to continue.', 'Content Warning');
         submitButton.textContent = 'Submit Reply';
         return;
     }
@@ -503,7 +503,7 @@ async function handlePostReply(content, parentId, submitButton) {
             submitButton.textContent = 'Analyzing...';
             const nsfwResult = await checkImageNsfw(replyMediaFile);
             if (nsfwResult.is_nsfw) {
-                showAlert(`Reply cannot be posted. The uploaded image was flagged as potentially NSFW (Score: ${nsfwResult.score}).`, 'Image Warning');
+                showAlert('The uploaded image was flagged as potentially inappropriate and cannot be submitted. Please choose a different image.', 'Image Warning');
                 submitButton.textContent = 'Submit Reply';
                 return;
             }
@@ -689,7 +689,7 @@ function setupCommentFormListener() {
 
         const toxicityResult = await checkContentToxicity(content);
         if (toxicityResult.is_toxic) {
-            showAlert(`Your comment cannot be posted because it was flagged as potentially inappropriate (Confidence: ${toxicityResult.confidence_score}).`, 'Content Warning');
+            showAlert('Your comment contains language that may be inappropriate. Please rephrase it to continue.', 'Content Warning');
             submitButton.disabled = false;
             submitButton.textContent = 'Post Comment';
             return;
@@ -706,7 +706,7 @@ function setupCommentFormListener() {
                 submitButton.textContent = 'Analyzing...';
                 const nsfwResult = await checkImageNsfw(mainCommentMediaFile);
                 if (nsfwResult.is_nsfw) {
-                    showAlert(`Comment cannot be posted. The uploaded image was flagged as potentially NSFW (Score: ${nsfwResult.score}).`, 'Image Warning');
+                    showAlert('The uploaded image was flagged as potentially inappropriate and cannot be submitted. Please choose a different image.', 'Image Warning');
                     submitButton.disabled = false;
                     submitButton.textContent = 'Post Comment';
                     return;
