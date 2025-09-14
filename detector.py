@@ -8,23 +8,120 @@ class FoulWordDetector:
     A class that uses a hybrid approach to detect toxic content.
     """
     BLACKLIST = {
+        # --- Core English Vulgarities ---
         'fuck', 'fucked', 'fucking', 'fuk', 'faggot', 'fagot',
         'shit', 'bitch', 'asshole', 'dick', 'pussy', 'cunt',
-        'nigger', 'nigga', 'coon',
-        'stupid', 'dumb'
+        'nigger', 'nigga', 'coon', 'stupid', 'dumb',
+
+        # --- Core Malay Vulgarities ---
+        'babi', 'sial', 'pukimak', 'pantat', 'burit', 'kote', 'lancau', 'anjing',
+        'pundek', 'pundik', 'pelacur', 'sundal', 'keparat', 'setan', 'iblis',
+        'celaka', 'bangsat', 'jembalang',
+
+        # --- Malay Insults ---
+        'bodoh', 'bangang', 'bingai', 'dungu', 'otak udang', 'otak lembu',
+        'kepala hotak', 'gila babi', 'gila sial', 'gila barbie', 'bahlul',
+        'mangkuk', 'haprak', 'lalat busuk',
+
+        # --- English-Malay Mix Vulgarities ---
+        'fuckkau', 'fucklah', 'fucku', 'shitlah', 'cb', 'ccb', 'cibai', 'chibai',
+        'kotehot', 'pantatlah', 'puki', 'pukima', 'cbkia', 'kthxbye',
+
+        # --- Hokkien / Cantonese Vulgarities (Common in Malaysia) ---
+        'lanjiao', 'kanina', 'kanasai', 'cheebye',
+        'simi lanjiao', 'sohai', 'louya', 'toh', 'mou ngan tai',
+        'fei lou', 'fei po',
+
+        # --- Tamil/Malay Mix Derogatory Slangs ---
+        'pariah', 'keling', 'india hitam', 'malai kutty', 'appu neh', 'lingam',
+
+        # --- Sexual Insults / Derogatory Terms ---
+        'bohsia', 'bohjan', 'pondan', 'gayboy', 'peliwat', 'homopak',
+        'lesbo', 'pelesit', 'betina jalang', 'anjing betina',
+
+        # --- Threats & Violent Phrases ---
+        'bunuh', 'bunuh kau', 'tikam', 'sapu kau', 'potong kau', 'hancur kau',
+        'rogol', 'rogol kau', 'tembak kau', 'mati kau', 'mampus', 'kubur kau',
+        'hantam kau', 'bantai kau',
+
+        # --- Hybrid Manglish Toxic Terms ---
+        'stupidlah', 'idiotlah', 'siot', 'macai', 'anjing dap', 'barua',
+        'tahi', 'pala hotak', 'celakalah',
     }
     
     ALLOWLIST = {
-        'afaik', 'ama', 'atm', 'bbl', 'bms', 'brb', 'bts', 'btw', 'cya', 'dm',
-        'fomo', 'ftw', 'fyi', 'gg', 'grwm', 'hbd', 'hbu', 'hf', 'hifw', 'hmu',
-        'hth', 'ianad', 'ianal', 'icymi', 'idc', 'idk', 'ig', 'iirc', 'ik', 'ikr',
-        'ily', 'imho', 'imo', 'irl', 'iykyk', 'jk', 'lmao', 'lmk', 'lol', 'mfw',
-        'ngl', 'nvm', 'oan', 'og', 'omg', 'omw', 'ootd', 'op', 'pov', 'ppl',
-        'ptl', 'qotd', 'rn', 'rofl', 'rt', 'smh', 'tbh', 'tbt', 'tfw', 'thx',
-        'tldr', 'ttyl', 'ty', 'tyt', 'wbu', 'wdym', 'wfh', 'wya', 'wyd', 'yw',
-        'fml', 'gtg', 'g2g', 'hecm', 'istg', 'iycr', 'msm', 'ntmy', 'pm',
-        'scnr', 'sflr', 'sry', 'tbf', 'tmi', 'ttfn', 'w/e', 'w/o', 'wut',
-        'fyp', 'sdp', 'ia', 'fict', 'fas', 'fbf', 'fsc', 'fam', 'fegt', 'fci'
+        # --- Manglish Particles & Fillers ---
+        'lah', 'mah', 'lor', 'leh', 'liao', 'meh', 'hor', 'woi', 'wei', 'weh',
+        'kan', 'gua', 'yo', 'ah', 'haiz', 'haix', 'lahhh',
+
+        # --- Casual Expressions / Exclamations ---
+        'alamak', 'adoi', 'aiyo', 'aiyah', 'walao', 'walaweh', 'walao eh',
+        'padu', 'mantap', 'cun', 'cunye', 'oklah', 'okayy', 'okie', 'niceee',
+        'kewl', 'best', 'terer', 'steady', 'relak', 'syok', 'shiok', 'ngam',
+        'zass', 'yass', 'seh', 'sehati', 'sejuk', 'yosh', 'winliao', 'haiyaa',
+
+        # --- Food / Lifestyle Slang ---
+        'makan', 'minum', 'tapau', 'bungkus', 'lapar', 'kenyang', 'sedap',
+        'lauk', 'nasi', 'teh', 'kopi', 'milo', 'roti', 'ayam', 'sambal',
+        'satay', 'cendol', 'aiskrim', 'otak-otak',
+
+        # --- Harmless Slang/Labels ---
+        'bro', 'sis', 'bossku', 'abang', 'kak', 'uncle', 'aunty',
+        'lengzai', 'lenglui', 'brader', 'bruh', 'buddy',
+        'macha', 'otai', 'otaii', 'gang', 'fam', 'geng',
+
+        # --- Daily Manglish Words ---
+        'lepak', 'jalan', 'pusing', 'santai', 'cincai', 'kawtim',
+        'pokai', 'pau', 'sapot', 'kacau', 'layan', 'tap', 'pakat',
+        'steadybompiipi', 'btar',
+
+        # --- Malaysian Context Words (Neutral) ---
+        'duit', 'gaji', 'belanja', 'harga', 'saman', 'polis', 'uni',
+        'college', 'kampung', 'balik', 'hari raya', 'cny', 'deepavali',
+        'merdeka', 'bazar', 'pasar', 'sahur', 'buka', 'iftar', 'raya',
+
+        # --- Gaming Slang (Safe) ---
+        'noob', 'carry', 'feed', 'ez', 'rekt', 'farm',
+        'main', 'alt', 'bot', 'top', 'mid', 'push', 'ranked', 'duo',
+
+        # --- Common Short Forms & Texting Slang ---
+        'af', 'jkjk', 'idgaf', 'wtv', 'hahaha', 'xoxo', 'zzz', 'haha', 'hehe',
+        'ggwp', 'smh', 'wtf', 'tqtq', 'pls', 'thx', 'ty', 'np', 'nvm', 'hehehe',
+        'ttyl', 'gnite', 'nite', 'gudnite', 'bye2', 'ciao', 'btw', 'kekeke',
+        'afaik', 'ama', 'atm', 'bbl', 'bms', 'brb', 'cya', 'dm', 'wakaka',
+        'fomo', 'ftw', 'fyi', 'gg', 'grwm', 'hbd', 'hbu', 'hf',
+        'hifw', 'hmu', 'hth', 'ianad', 'ianal', 'icymi', 'idc',
+        'idk', 'ig', 'iirc', 'ik', 'ikr', 'ily', 'imho', 'imo',
+        'irl', 'iykyk', 'jk', 'lmao', 'lmk', 'lol', 'mfw', 'ngl',
+        'oan', 'og', 'omg', 'omw', 'ootd', 'op', 'pov', 'ppl',
+        'ptl', 'qotd', 'rn', 'rofl', 'rt', 'tbh', 'tbt',
+        'tfw', 'tyt', 'wbu', 'wdym', 'wfh', 'wya',
+        'wyd', 'yw', 'fml', 'gtg', 'g2g', 'hecm', 'istg', 'iycr',
+        'msm', 'ntmy', 'pm', 'scnr', 'sflr', 'sry', 'tbf', 'tmi',
+        'ttfn', 'w/e', 'w/o', 'wut', 'sdp', 'ia',
+
+        # --- UTAR & Academic Specific ---
+        'assignment', 'assgmnt', 'report', 'projek', 'presentation',
+        'lab', 'tutorial', 'lecture', 'lecturer', 'exam', 'paper', 'fyp',
+        'fict', 'fas', 'fbf', 'fsc', 'fam', 'fegt', 'fci',
+
+        # --- NEW: Academic & University Life (Negative but Not Toxic) ---
+        'bad', 'boring', 'challenging', 'confused', 'difficult', 'disappointing',
+        'due', 'error', 'exhausted', 'fail', 'failed', 'failure', 'hard',
+        'issue', 'late', 'lost', 'low', 'mark', 'mistake', 'poor', 'pressure',
+        'problem', 'repeat', 'sick', 'stress', 'stressed', 'struggle',
+        'struggling', 'stuck', 'terrible', 'tired', 'tough', 'useless', 'worry',
+
+        # --- NEW: Technical & Programming Terms ---
+        'bug', 'buggy', 'compile', 'crash', 'crashed', 'exception', 'fatal',
+        'frozen', 'hang', 'lag', 'leak', 'warning',
+
+        # --- NEW: Common Frustration (Non-Toxic) & Ambiguous Words ---
+        'damn', 'dead', 'die', 'freaking', 'frustrating', 'heck', 'kill',
+        'shot', 'shoot', 'sucks', 'annoying',
+
+        # --- Previously Identified False Positives ---
+        'testing', 'poll',
     }
 
     def __init__(self, model_name="distilbert-base-uncased-finetuned-sst-2-english"):
