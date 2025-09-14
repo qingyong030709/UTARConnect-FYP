@@ -284,7 +284,7 @@ async function deletePost(postId) {
             const user = auth.currentUser;
             if (user) {
                 const idToken = await user.getIdToken(true);
-                const response = await fetch('http://127.0.0.1:5001/delete-media', {
+                const response = await fetch('https://utarconnect-backend-807320862918.asia-southeast1.run.app/delete-media', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
