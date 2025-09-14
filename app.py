@@ -119,6 +119,3 @@ def delete_media():
     except Exception as e:
         print(f"An error occurred during media deletion: {e}")
         return jsonify({'error': f'An internal error occurred: {e}'}), 500
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)
