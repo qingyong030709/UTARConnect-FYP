@@ -27,8 +27,6 @@ class FoulWordDetector:
         'fyp', 'sdp', 'ia', 'fict', 'fas', 'fbf', 'fsc', 'fam', 'fegt', 'fci'
     }
 
-    # --- THIS IS THE CHANGE ---
-    # Instead of taking a local path, we will load the model directly from the Hugging Face Hub.
     def __init__(self, model_name="distilbert-base-uncased-finetuned-sst-2-english"):
         print(f"Loading model '{model_name}' from Hugging Face Hub...")
         self.model_name = model_name
@@ -37,8 +35,12 @@ class FoulWordDetector:
         self.pipeline = pipeline('text-classification', model=self.model, tokenizer=self.tokenizer)
         print("Model loaded successfully.")
 
-    def predict(self, text: str, toxicity_threshold: float = 0.80) -> dict:
-        # The predict function does not need any changes.
+    # --- THIS IS THE KEY CHANGE ---
+    # We are increasing the threshold to be much stricter.
+    def predict(self, text: str, toxicity_threshold: float = 0.98) -> dict:
+        """
+        Analyzes text using a multi-step process for higher accuracy.
+        """
         original_text = text
         if not isinstance(original_text, str) or not original_text.strip():
             return {'is_toxic': False, 'confidence_score': 0.0, 'text': original_text}
@@ -50,6 +52,7 @@ class FoulWordDetector:
             print(f"BLACKLIST TRIGGERED: Found '{', '.join(blacklisted_words_found)}' in '{original_text}'.")
             return {'is_toxic': True, 'confidence_score': 1.0, 'text': original_text}
 
+        # Use a list comprehension for a cleaner filter
         words_to_check = [word for word in words_in_text if word not in self.ALLOWLIST]
         
         filtered_text = ' '.join(words_to_check)
@@ -61,9 +64,11 @@ class FoulWordDetector:
         print(f"Analyzing filtered text with AI: '{filtered_text}'")
         result = self.pipeline(filtered_text)[0]
         
+        # This model uses 'POSITIVE' and 'NEGATIVE' or LABEL_0 / LABEL_1. This handles both.
         is_toxic_prediction = (result['label'] == 'LABEL_1' or result['label'].lower() == 'negative')
         confidence = result['score']
         
+        # The main logic check
         final_is_toxic = is_toxic_prediction and (confidence >= toxicity_threshold)
         display_confidence = confidence if is_toxic_prediction else (1 - confidence)
 
