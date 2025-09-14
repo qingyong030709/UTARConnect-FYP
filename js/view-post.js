@@ -15,7 +15,7 @@ function getOptimizedCloudinaryUrl(url) {
     return url.replace('/upload/', '/upload/q_auto,f_auto,w_800/');
 }
 
-const ML_API_URL = 'https://utarconnect-backend-xxxxxxxxxx-as.a.run.app';
+const ML_API_URL = 'https://utarconnect-backend-807320862918.asia-southeast1.run.app';
 
 let currentUser = null;
 let postId = null;

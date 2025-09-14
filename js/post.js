@@ -12,7 +12,7 @@ const pollOptionsContainer = document.getElementById('pollOptionsContainer');
 const addPollOptionBtn = document.getElementById('addPollOptionBtn');
 
 // Use your live backend URL for production, or local for testing
-const ML_API_URL = 'https://utarconnect-backend-xxxxxxxxxx-as.a.run.app';
+const ML_API_URL = 'https://utarconnect-backend-807320862918.asia-southeast1.run.app';
 
 async function checkTextToxicity(text) {
     if (!text.trim()) return { is_toxic: false };
