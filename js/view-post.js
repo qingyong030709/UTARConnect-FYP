@@ -190,11 +190,12 @@ function renderPost(post) {
     const reportButtonClass = `report-button ${hasReported ? 'reported' : ''}`;
     const reportButtonTitle = hasReported ? "You have already reported this" : "Report this post";
     const pollHtml = post.poll ? `<div class="poll-container" id="pollContainer"></div>` : '';
+
     const mediaHtml = post.mediaUrl && typeof post.mediaUrl === 'string' ? `
         <div class="post-view-media-container">
             ${post.mediaUrl.match(/\.(mp4|webm|mov|ogg)$/i)
                 ? `<video class="post-view-media" src="${post.mediaUrl}" controls onclick="window.openMediaInLightbox('${post.mediaUrl}', 'video')"></video>`
-                : `<img class="post-media" src="${getOptimizedCloudinaryUrl(post.mediaUrl)}" alt="Post media" loading="lazy" onclick="window.openMediaInLightbox('${post.mediaUrl}', 'image')">`
+                : `<img class="post-view-media" src="${getOptimizedCloudinaryUrl(post.mediaUrl)}" alt="Post media" onclick="window.openMediaInLightbox('${post.mediaUrl}', 'image')">`
             }
         </div>
     ` : '';
