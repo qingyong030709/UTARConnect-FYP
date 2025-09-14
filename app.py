@@ -11,13 +11,22 @@ import firebase_admin
 from firebase_admin import credentials, auth, firestore
 from dotenv import load_dotenv
 
-# --- GLOBAL VARIABLES & CONFIGURATION ---
 # Load environment variables from .env file for local development
 load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app)
+
+# --- CORRECTED INITIALIZATION LOGIC ---
+# Initialize Firebase Admin ONCE at the global scope. This is essential.
+try:
+    print("Initializing Firebase Admin SDK...")
+    cred = credentials.Certificate("service-account-key.json")
+    firebase_admin.initialize_app(cred)
+    print("Firebase Admin SDK initialized successfully.")
+except Exception as e:
+    print(f"FATAL ERROR: Could not initialize Firebase Admin SDK. Error: {e}")
 
 # --- LAZY-LOADED SINGLETONS ---
 # These variables will be initialized only once when they are first needed.
@@ -29,21 +38,12 @@ def get_db():
     """Initializes and returns a Firestore client, creating only one instance."""
     global _db_client
     if _db_client is None:
-        print("Initializing Firebase Admin SDK for the first time...")
-        try:
-            # IMPORTANT: For Cloud Run, service_account_key.json must be in your Docker image.
-            cred = credentials.Certificate("service-account-key.json")
-            firebase_admin.initialize_app(cred)
-            _db_client = firestore.client()
-            print("Firebase Admin SDK initialized successfully.")
-        except Exception as e:
-            print(f"FATAL ERROR: Could not initialize Firebase Admin SDK. Error: {e}")
-            # This will cause the function to return None, and dependent endpoints will fail gracefully.
+        print("Initializing Firestore client for the first time...")
+        _db_client = firestore.client()
     return _db_client
 
 def configure_cloudinary():
     """Configures Cloudinary using environment variables."""
-    # This function is run once at startup but is separated for clarity.
     try:
         cloudinary.config(
             cloud_name=os.getenv("CLOUD_NAME"),
@@ -59,7 +59,6 @@ def configure_cloudinary():
 
 # Run Cloudinary configuration once when the app starts.
 configure_cloudinary()
-
 
 def get_foul_word_detector():
     """Loads and returns the foul word detector, creating only one instance."""
@@ -121,17 +120,19 @@ def predict_nsfw():
 
 @app.route('/delete-media', methods=['POST'])
 def delete_media():
-    db = get_db()
-    if db is None:
-        return jsonify({'error': 'Backend Firestore service not available'}), 500
     id_token = request.headers.get('Authorization', '').split('Bearer ')[-1]
     if not id_token:
         return jsonify({'error': 'Authorization token is required'}), 401
     try:
+        # This call requires the app to be initialized, which it now is.
         decoded_token = auth.verify_id_token(id_token)
         uid = decoded_token['uid']
     except Exception as e:
-        return jsonify({'error': 'Invalid or expired authorization token'}), 401
+        return jsonify({'error': f'Invalid or expired authorization token: {e}'}), 401
+    
+    db = get_db()
+    if db is None:
+        return jsonify({'error': 'Backend Firestore service not available'}), 500
     
     data = request.get_json()
     post_id = data.get('postId')
@@ -158,6 +159,6 @@ def delete_media():
             return jsonify({'error': 'Cloudinary deletion failed', 'details': delete_result}), 500
     except Exception as e:
         return jsonify({'error': f'An internal error occurred: {e}'}), 500
-    
+
 if __name__ == "__main__":
     app.run(debug=False, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
