@@ -9,7 +9,6 @@ import cloudinary
 import cloudinary.uploader
 import firebase_admin
 from firebase_admin import credentials, auth, firestore
-
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -27,35 +26,50 @@ except Exception as e:
     print(f"FATAL ERROR: Could not initialize Firebase Admin SDK. Error: {e}")
     db = None
 
-# --- Initialize Cloudinary ---
 try:
     cloudinary.config(
-        cloud_name = os.getenv("CLOUD_NAME"),
-        api_key = os.getenv("API_KEY"),
-        api_secret = os.getenv("API_SECRET"),
+        cloud_name=os.getenv("CLOUD_NAME"),
+        api_key=os.getenv("API_KEY"),
+        api_secret=os.getenv("API_SECRET"),
         secure=True
     )
     print("Cloudinary configured successfully.")
 except Exception as e:
     print(f"WARNING: Could not configure Cloudinary. Deletion will not work. Error: {e}")
 
-# Initialize AI Detectors
-print("Initializing Foul Word Detector...")
-MODEL_PATH = './toxic-content-model'
-try:
-    foul_word_detector = FoulWordDetector(model_path=MODEL_PATH)
-    print("Foul Word Detector is ready.")
-except FileNotFoundError:
-    print(f"FATAL ERROR: Foul Word Model not found at {MODEL_PATH}.")
-    foul_word_detector = None
 
-print("Initializing NSFW Image Detector...")
-try:
-    nsfw_detector = NsfwDetector()
-    print("NSFW Detector is ready.")
-except Exception as e:
-    print(f"WARNING: NSFW Detector could not be initialized. Error: {e}")
-    nsfw_detector = None
+# --- LAZY LOADING IMPLEMENTATION ---
+# 1. Initialize the detectors as None. They will not be loaded on startup.
+foul_word_detector = None
+nsfw_detector = None
+MODEL_PATH = './toxic-content-model'
+
+# 2. Use the 'global' keyword to modify these variables from within our functions.
+def get_foul_word_detector():
+    """Loads the foul word detector if it hasn't been loaded yet."""
+    global foul_word_detector
+    if foul_word_detector is None:
+        print("Initializing Foul Word Detector for the first time...")
+        try:
+            foul_word_detector = FoulWordDetector(model_path=MODEL_PATH)
+            print("Foul Word Detector is now ready.")
+        except Exception as e:
+            print(f"FATAL ERROR: Could not initialize Foul Word Model. Error: {e}")
+    return foul_word_detector
+
+def get_nsfw_detector():
+    """Loads the NSFW detector if it hasn't been loaded yet."""
+    global nsfw_detector
+    if nsfw_detector is None:
+        print("Initializing NSFW Detector for the first time...")
+        try:
+            nsfw_detector = NsfwDetector()
+            print("NSFW Detector is now ready.")
+        except Exception as e:
+            print(f"WARNING: NSFW Detector could not be initialized. Error: {e}")
+    return nsfw_detector
+# --- END OF LAZY LOADING IMPLEMENTATION ---
+
 
 def is_admin(uid):
     try:
@@ -70,17 +84,23 @@ def is_admin(uid):
 
 @app.route('/predict', methods=['POST'])
 def predict_toxicity():
-    if foul_word_detector is None: return jsonify({'error': 'Foul word model is not loaded'}), 500
-    data = request.get_json();
+    # 3. Call our new helper function to get the detector.
+    detector = get_foul_word_detector()
+    if detector is None: return jsonify({'error': 'Foul word model could not be loaded'}), 500
+    
+    data = request.get_json()
     if not data or 'text' not in data: return jsonify({'error': 'Missing "text" field'}), 400
-    return jsonify(foul_word_detector.predict(data['text']))
+    return jsonify(detector.predict(data['text']))
 
 @app.route('/predict_nsfw', methods=['POST'])
 def predict_nsfw():
-    if nsfw_detector is None: return jsonify({'is_nsfw': False, 'score': 0.0, 'error': 'Model not loaded'})
-    data = request.get_json();
+    # 4. Call our new helper function to get the detector.
+    detector = get_nsfw_detector()
+    if detector is None: return jsonify({'is_nsfw': False, 'score': 0.0, 'error': 'NSFW Model could not be loaded'})
+    
+    data = request.get_json()
     if not data or 'image' not in data: return jsonify({'error': 'Missing "image" field'}), 400
-    return jsonify(nsfw_detector.predict(data['image']))
+    return jsonify(detector.predict(data['image']))
 
 @app.route('/delete-media', methods=['POST'])
 def delete_media():
