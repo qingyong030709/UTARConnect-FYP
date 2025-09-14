@@ -99,7 +99,7 @@ if (loginForm && loginButton) {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             
-            if (!user.emailVerified && user.email !== 'admin01@utar.my') {
+            if (!user.emailVerified && user.email !== 'admin01@1utar.my') {
                 await auth.signOut();
                 showResendVerificationModal(user);
                 loginButton.disabled = false;
