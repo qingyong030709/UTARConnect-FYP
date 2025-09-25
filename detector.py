@@ -132,8 +132,6 @@ class FoulWordDetector:
         self.pipeline = pipeline('text-classification', model=self.model, tokenizer=self.tokenizer)
         print("Model loaded successfully.")
 
-    # --- THIS IS THE KEY CHANGE ---
-    # We are increasing the threshold to be much stricter.
     def predict(self, text: str, toxicity_threshold: float = 0.98) -> dict:
         """
         Analyzes text using a multi-step process for higher accuracy.

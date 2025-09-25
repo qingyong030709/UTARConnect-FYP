@@ -11,7 +11,7 @@ class NsfwDetector:
     """
     A class to load an NSFW detection model and classify images.
     """
-    # --- CHANGED: Using a dedicated NSFW detection model ---
+    # --- NSFW detection model ---
     def __init__(self, model_name="Falconsai/nsfw_image_detection"):
         self.model_name = model_name
         self.processor = None
@@ -53,12 +53,10 @@ class NsfwDetector:
             print("--- NSFW Model Prediction ---")
             print("All Scores (Logits):", all_scores)
 
-            # --- CHANGED: This model uses softmax, so we can get probabilities directly ---
             probabilities = torch.softmax(logits, dim=1)[0]
             prob_scores = {labels[i]: round(prob.item(), 4) for i, prob in enumerate(probabilities)}
             print("All Scores (Probabilities):", prob_scores)
             
-            # --- CHANGED: Logic to handle 'nsfw' label specifically ---
             nsfw_score = prob_scores.get('nsfw', 0.0)
             
             is_nsfw = nsfw_score >= nsfw_threshold
